@@ -14,8 +14,8 @@ import {
   onMounted,
   defineComponent,
 } from 'vue'
-import PageFooter from '../components/pageFooter.vue';
 
+import PageFooter from '../components/pageFooter.vue'
 import { addOrUpdate } from '../api/api'
 
 export default {
@@ -50,16 +50,16 @@ export default {
       count: 0,
     })
 
-     onBeforeMount(async() => {
+    onBeforeMount(async () => {
       // console.log('2.组件挂载页面之前执行----onBeforeMount')
-      let a =  await  addOrUpdate({name:'河南'})
-      console.log(a);
-      
+      // let a = await addOrUpdate({ name: '河南' })
+      // console.log(a)
     })
     onMounted(() => {
-      // console.log('3.-组件挂载到页面之后执行-------onMounted')
+      
     })
     
+
     return {
       ...toRefs(data),
     }
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-.home{
+.home {
   padding-top: 53px !important;
   padding-bottom: 60px;
 }

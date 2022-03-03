@@ -1,22 +1,25 @@
 
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios,{AxiosRequestConfig} from 'axios';
 import { Dialog, Toast } from 'vant';
 
-export enum methodInfo {
-  post = 'post',
-  get = 'get',
-}
+type methodInfo = "get" | "GET" | "delete" | "DELETE" | "head" | "HEAD" | "options" | "OPTIONS" | "post" | "POST" | "put" | "PUT" | "patch" | "PATCH" | undefined
 
 export enum UrlCode {
   NO_ISLOG, // 没有登陆不允许发送请求
   ENND_ISLOG, // 有没有登陆都可以发送请求
-
 }
 interface DataInfo {
   url: string,
   method: methodInfo,
   UrlCode: UrlCode,
   data: any
+}
+
+interface data {
+  url: string,
+  method: methodInfo,
+  data?: any,
+  params?: any
 }
 
 interface AnyObject {
@@ -34,9 +37,11 @@ const instance = axios.create({
 /**
 * 请求拦截
 */
-instance.interceptors.request.use((config: any) => {
+instance.interceptors.request.use((config:AxiosRequestConfig<any>) => {
   let token = localStorage.getItem('token') || '';
+  config.headers = config.headers || {}
   config.headers['token'] = token;
+  
 
   // 打开loading
   Toast.loading({
@@ -88,6 +93,26 @@ function isIntfData(res: any): boolean {
   return res && typeof res.data === 'object' && typeof res.data.success === 'boolean'
 }
 
+/**
+ * 根据请求方式 获取相应参数KEY
+ * @param data 
+ */
+function reasonMethod(data:DataInfo){
+
+  let obj:data = {
+    url: data.url,
+    method: data.method,
+  }
+
+  if (data.method == 'post') {
+    obj.data = data.data
+  }else{
+    obj.data = data.data
+  }
+  
+  return obj
+}
+
 export async function requestApi(data: DataInfo) {
   // 获取token, 获取缓存这里 可以再封装下
   let token: string | null = localStorage.getItem('token');
@@ -97,13 +122,18 @@ export async function requestApi(data: DataInfo) {
     return createError('', '当前页面需要登录, 请先登录')
   }
 
+  // 获取请求参数
+  let insideConfig = reasonMethod(data)
+
+  // {
+  //   url: data.url,
+  //   method: data.method,
+  //   data: data.data
+  // }
+
   // 取到token 放在网络请求里面
   try {
-    let res = await instance.request({
-      url: data.url,
-      method: data.method,
-      data: data.data
-    });
+    let res = await instance.request(insideConfig);
 
     Toast.clear();
 
