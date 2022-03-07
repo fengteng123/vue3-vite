@@ -2,7 +2,7 @@
   <div class="header">
     <i
       v-if="isIcon"
-      onclick="goBack()"
+      @click="goBack()"
       class="headbar-arrow"
     ></i>
     <div>
@@ -14,6 +14,7 @@
 
 <script lang='ts'>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   name: 'pageHeader',
@@ -30,12 +31,20 @@ export default {
     },
   },
   setup() {
+    const router = useRouter()
+    const route = useRoute()
+
     const data = reactive({
       count: 0,
     })
 
+    const goBack = () => {
+      router.go(-1)
+    }
+
     return {
       ...toRefs(data),
+      goBack
     }
   },
 }

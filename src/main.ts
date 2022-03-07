@@ -9,6 +9,9 @@ import { Button } from 'vant';
 import { Icon } from 'vant'; 
 import { Swipe, SwipeItem } from 'vant';
 import { Toast, Dialog } from 'vant';
+import { SubmitBar } from 'vant'; 
+import { Sidebar, SidebarItem } from 'vant';
+
 
 createApp(App)
 .use(router)
@@ -18,6 +21,10 @@ createApp(App)
 .use(Icon)
 .use(Swipe)
 .use(SwipeItem)
+.use(SubmitBar)
+.use(Sidebar)
+.use(SidebarItem)
+
 .use(Toast)
 .use(Dialog)
 
