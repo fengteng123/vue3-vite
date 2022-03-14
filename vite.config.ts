@@ -11,8 +11,13 @@ export default defineConfig({
     })
   ],
   server:{
+    host:"0.0.0.0",
     proxy:{
-      '/api': 'http://192.168.3.103:8080/hx_web_admin'
+      '/api': {
+        target: 'http://192.168.0.103:9202/',
+        changeOrigin: true,
+        // rewrite: path => path.replace(/^\/api/, '')
+      }
     }
   }
 })

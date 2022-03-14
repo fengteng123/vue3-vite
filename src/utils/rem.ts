@@ -8,7 +8,7 @@ function setRem():void {
   const scale:number = document.documentElement.clientWidth / 375;
 
   // 设置页面根节点字体大小
-  document.documentElement.style.fontSize = (baseSize * Math.min(scale, 2)) + 'px';
+  document.documentElement.style.fontSize = (baseSize * Math.min(scale, 1.5)) + 'px';
 }
 
 // 初始化

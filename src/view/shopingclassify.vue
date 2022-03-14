@@ -8,24 +8,27 @@
     <div class="content">
       <div class="sidebar">
         <van-sidebar v-model="active">
-          <van-sidebar-item title="标签名称" />
-          <van-sidebar-item title="标签名称" />
-          <van-sidebar-item title="标签名称" />
+          <van-sidebar-item
+            v-for=" item in typeList"
+            :key="item.id"
+            :title="item.name"
+            @click="spuFun(item.id)"
+          />
         </van-sidebar>
       </div>
       <div class="shop-content">
         <div
           class="type-item"
-          v-for="index of 6"
-          :key="index"
-          @click="skipShopDetails()"
+          v-for="items of list"
+          :key="items.id"
+          @click="skipShopDetails(items)"
         >
           <img
-            src="http://dummyimage.com/2000x2000/5169b4/FFF.png"
+            :src="items.image"
             alt=""
             srcset=""
           >
-          <div class="text">手机</div>
+          <div class="text">{{items.name}}</div>
         </div>
       </div>
     </div>
@@ -37,6 +40,7 @@
 <script lang='ts'>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { categorySearch, spuSearch } from '../api/api'
 
 import PageHeader from '../components/PageHeader.vue'
 
@@ -52,15 +56,54 @@ export default {
 
     const data = reactive({
       active: 0,
+      typeList: [],
+      list: [],
     })
 
-    const skipShopDetails = () => {
-      alert('跳转商品详情')
+    onBeforeMount(() => {
+      serach()
+    })
+
+    const serach = async () => {
+      try {
+        let res = await categorySearch(104)
+
+        data.typeList = res.data.rows
+
+        // spuSearch(1)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const spuFun = async (id: number) => {
+      try {
+        let res = await spuSearch({
+          category1Id: id,
+          category2Id: id,
+          category3Id: id,
+        })
+
+        data.list = res.data.rows
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const skipShopDetails = (item) => {
+      console.log(item.id)
+
+      // alert('跳转商品详情')
+      router.push({
+        path: '/commodityDetails',
+        query: { id: item.id, image: item.image },
+      })
     }
 
     return {
       ...toRefs(data),
       skipShopDetails,
+      spuFun,
     }
   },
 }
@@ -74,6 +117,7 @@ export default {
       height: 100%;
     }
     .shop-content {
+      height: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -88,9 +132,12 @@ export default {
           height: 56px;
         }
         .text {
+          height: 30px;
           font-size: 12px;
           color: #333;
           text-align: center;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
     }

@@ -12,14 +12,20 @@
           name="contact"
         />
       </div>
-      <span @click='loginFun()'>登陆 / 注册</span>
-      <!-- <span>15877378549</span> -->
+      <span v-if="isLogin">{{username.nickName}}</span>
+      <div v-if="!isLogin">
+        <span  @click='loginFun(1)'>登陆 / </span> <span @click="loginFun(2)"> 注册</span>
+      </div>
+
     </header>
 
-    <div class="content">
+    <div
+      class="content"
+      v-if="isLogin"
+    >
       <router-link
         class="item"
-        :to="{ path: '/1323'}"
+        :to="{ path: '/myOrder'}"
       >
         <div class="left">
           <van-icon
@@ -37,7 +43,7 @@
 
       <router-link
         class="item"
-        :to="{ path: '/1323'}"
+        :to="{ path: '/user'}"
       >
         <div class="left">
 
@@ -87,9 +93,14 @@
       </div>
 
       <div class="edit">
-        <van-button color="#f17d27" type="primary" round block>退出登陆</van-button>
+        <van-button
+          @click="editFun"
+          color="#f17d27"
+          type="primary"
+          round
+          block
+        >退出登陆</van-button>
       </div>
-
 
     </div>
   </div>
@@ -99,33 +110,62 @@
 <script lang='ts'>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { userDetails } from '../api/api'
+import { useStore } from 'vuex'
 
 import PageHeader from '../components/PageHeader.vue'
 
 export default {
-  name: 'front',
+  name: 'my',
   components: {
     PageHeader,
   },
-
   setup() {
-
+    const store = useStore()
     const router = useRouter()
     const route = useRoute()
+    const data = reactive({
+      isLogin: window.localStorage.getItem('isLogin'),
+      username: {},
+    })
 
-    const data = reactive({})
-
+    onBeforeMount(() => {
+      if (data.isLogin) {
+        userInfo()
+      }
+    })
 
     // 登陆 注册
-    const loginFun = () => {
+    const loginFun = (type: number) => {
       router.push({
-        path:'/accountNumber'
+        path: `/accountNumber/${type}`,
+      })
+    }
+
+    const userInfo = async () => {
+      try {
+        let res = await userDetails()
+        console.log(res)
+        if (res.success) {
+          data.username = res.data
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    // 退出账号
+    const editFun = () => {
+      window.localStorage.setItem('isLogin',false)
+      router.push({
+        path: '/front',
       })
     }
 
     return {
       ...toRefs(data),
       loginFun,
+      editFun,
     }
   },
 }

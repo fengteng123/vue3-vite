@@ -11,6 +11,7 @@ import { Swipe, SwipeItem } from 'vant';
 import { Toast, Dialog } from 'vant';
 import { SubmitBar } from 'vant'; 
 import { Sidebar, SidebarItem } from 'vant';
+import { Field, CellGroup } from 'vant';
 
 
 createApp(App)
@@ -24,7 +25,8 @@ createApp(App)
 .use(SubmitBar)
 .use(Sidebar)
 .use(SidebarItem)
-
+.use(Field)
+.use(CellGroup)
 .use(Toast)
 .use(Dialog)
 

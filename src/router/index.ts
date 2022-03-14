@@ -5,6 +5,9 @@ import Shopingclassify from '../view/shopingclassify.vue'
 import Shoping from '../view/shoping.vue'
 import My from '../view/my.vue'
 import AccountNumber from '../view/accountNumber.vue'
+import MyOrder from '../view/myOrder.vue'
+import User from '../view/user.vue'
+import CommodityDetails from '../view/commodityDetails.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -12,6 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/home',
   },
+  
   {
     path: '/home',
     name: 'home',
@@ -41,10 +45,25 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/accountNumber',
+    path: '/accountNumber/:type',
     name: 'AccountNumber',
     component: AccountNumber,
-  }
+  },
+  {
+    path: '/myOrder',
+    name: 'myOrder',
+    component: MyOrder,
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: User,
+  },
+  {
+    path: '/commodityDetails',
+    name: 'commodityDetails',
+    component: CommodityDetails,
+  },
 ];
 
 const router = createRouter({

@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
 }
 
   interface storeDefaultInfo {
+    isLogin:Boolean;
     token: string;
     // idList: number[]
     idList:any
@@ -19,6 +20,7 @@ declare module '@vue/runtime-core' {
  * store 默认数据
  */
 let storeDefault: storeDefaultInfo = {
+  isLogin: false,
   token: "123",
   idList: [1, 1, 1, 1, , 2, 2, 2, 3, 6, 4, 7, 9, 7],
 }
@@ -50,6 +52,10 @@ export default createStore({
   mutations: {
     setToken(state, value) {
       state.token = value
+    },
+    // 
+    setIsLogin(state, value) {
+      state.isLogin = value;
     }
   },
   // Action 提交的是 mutation，而不是直接变更状态。

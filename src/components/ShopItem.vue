@@ -9,18 +9,18 @@
     </div>
 
     <div class="item-right">
-      <div class="item-characters">小辣椒 红辣椒4A 标准版 全网通 移动联通电信4G手机</div>
+      <div class="item-characters">{{list.name}}</div>
 
       <div
         class="item-characters"
         style="color:#fda929; padding:6px 0;"
-      >土豪金-128g</div>
+      >{{list.categoryName}}</div>
 
       <div
         class="item-characters"
         style="color:'#A8A8A8'"
       >
-        售价: 999元
+        售价: {{list.price }}元
       </div>
     </div>
     <van-icon
@@ -41,11 +41,11 @@ import { useRoute, useRouter } from 'vue-router'
 export default {
   name: 'pageFooter',
   props: {
-    // list: {
-    //   type: Array,
-    //   required: true,
-    //   default: [],
-    // },
+    list: {
+      type: Object,
+      required: true,
+      default: {},
+    },
   },
   setup(props, context) {
     const router = useRouter()
