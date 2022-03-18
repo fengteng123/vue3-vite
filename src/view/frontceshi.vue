@@ -73,49 +73,51 @@ export default {
       count: 0
     })
 
-    // 访问 store
+    // 1.访问 store
     // console.log(store.state.token);
     // // 修改store
     // store.commit('setToken',321)
     // // store 使用计算属性
     // console.log(store.getters.getId(1));
 
-    let promise = new Promise((res, rej) => {
-      setTimeout(() => {
-        console.log('定时器执行完成1')
-        res(123)
-      }, 500)
-    })
 
-    let promise1 = new Promise((res, rej) => {
-      setTimeout(() => {
-        console.log('定时器执行完成2')
-        res(321)
-      }, 2000)
-    })
+    // 2.练习promise
+    // let promise = new Promise((res, rej) => {
+    //   setTimeout(() => {
+    //     console.log('定时器执行完成1')
+    //     res(123)
+    //   }, 500)
+    // })
 
-    promise
-      .then((data) => {
-        console.log('then' + data)
-      })
-      .catch((data) => {
-        console.log('catch' + data)
-      })
+    // let promise1 = new Promise((res, rej) => {
+    //   setTimeout(() => {
+    //     console.log('定时器执行完成2')
+    //     res(321)
+    //   }, 2000)
+    // })
 
-    let all =  Promise.all([promise, promise1])
+    // promise
+    //   .then((data) => {
+    //     console.log('then' + data)
+    //   })
+    //   .catch((data) => {
+    //     console.log('catch' + data)
+    //   })
 
-    all.then((data)=>{
-      console.log('双异步都执行完成');
+    // let all =  Promise.all([promise, promise1])
+
+    // all.then((data)=>{
+    //   console.log('双异步都执行完成');
       
-    })
+    // })
 
 
-    let race = Promise.race([ promise, promise1 ])
+    // let race = Promise.race([ promise, promise1 ])
 
-    race.then((data)=>{
-      console.log('双异步执行最短时间完成');
+    // race.then((data)=>{
+    //   console.log('双异步执行最短时间完成');
       
-    })
+    // })
 
     // 3.创建只读的计算属性
     const computedEven1 = computed(() => state.count % 2);
@@ -129,6 +131,17 @@ export default {
         state.count = newVal;
       }
     })
+
+    // 5.proxy
+    let data = new Proxy(target, handler);
+
+
+    function a() {
+      let aa = 1;
+      function nn() {
+        return aa
+      }
+    }
 
     return {
       ...toRefs(data),

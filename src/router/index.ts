@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Home from "../view/home.vue"
-import Front from '../view/front.vue'
+import Front from '../view/frontceshi.vue'
 import Shopingclassify from '../view/shopingclassify.vue'
 import Shoping from '../view/shoping.vue'
 import My from '../view/my.vue'
