@@ -133,15 +133,8 @@ export default {
     })
 
     // 5.proxy
-    let data = new Proxy(target, handler);
-
-
-    function a() {
-      let aa = 1;
-      function nn() {
-        return aa
-      }
-    }
+    // let data = new Proxy(target, handler);
+    
 
     return {
       ...toRefs(data),

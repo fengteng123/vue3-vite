@@ -20,7 +20,7 @@
         class="item-characters"
         style="color:'#A8A8A8'"
       >
-        售价: {{list.price }}元
+        售价: {{list.price?list.price/100:'' }}元
       </div>
     </div>
     <van-icon
@@ -37,6 +37,8 @@
 <script lang='ts'>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+import { delectCart } from '../api/api'
 
 export default {
   name: 'pageFooter',
@@ -60,19 +62,22 @@ export default {
       // console.log('3.-组件挂载到页面之后执行-------onMounted')
     })
 
-
     /**
      * 删除商品
      */
-    const delectShop = (item) => {
+    const delectShop = async (item) => {
       // 向父组件时间传值的方式，这里适合在组件中直接 调用方法删除
       // emit('onInput', value)
-      
+      try {
+        let res = delectCart(props.list)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     return {
       ...toRefs(data),
-      delectShop
+      delectShop,
     }
   },
 }

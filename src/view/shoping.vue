@@ -16,7 +16,7 @@
 
     <div class="submit-bar">
       <van-submit-bar
-        :price="amount*100"
+        :price="amount*1.00"
         button-text="提交订单"
         @submit="onSubmit"
       />
@@ -31,7 +31,7 @@ import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import ShopItem from '../components/ShopItem.vue'
 
-import { selectCart, order } from '../api/api'
+import { selectCart, order, pay } from '../api/api'
 
 export default {
   name: 'shoping',
@@ -63,6 +63,9 @@ export default {
       try {
         let res = await order(obj); 
         console.log(res);
+
+        // 支付
+        payFun(res.data.number, res.data.amount)
         
       } catch (error) {
         console.log(error);
@@ -85,6 +88,19 @@ export default {
       }
     }
 
+    const payFun = async (orderNumber,payAmount) =>{
+      try {
+        let res = await pay({
+          orderNumber,
+          payAmount,
+        })
+        if (res.success) {
+          select()
+        }
+      } catch (error) {
+        
+      }
+    }
     return {
       ...toRefs(data),
       onSubmit,

@@ -2,6 +2,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Dialog, Toast } from 'vant';
 
+import { useRoute, useRouter } from 'vue-router'
+
 type methodInfo = "get" | "GET" | "delete" | "DELETE" | "head" | "HEAD" | "options" | "OPTIONS" | "post" | "POST" | "put" | "PUT" | "patch" | "PATCH" | undefined
 
 export enum UrlCode {
@@ -68,9 +70,20 @@ instance.interceptors.request.use((config: AxiosRequestConfig<any>) => {
 * 添加响应拦截器
 */
 instance.interceptors.response.use(function (response) {
-  console.log(response);
   return response;
 }, function (error) {
+
+  if(error.response.status===401) {
+    // useRouter.
+    const router = useRouter()
+    const route = useRoute()
+    router.push({
+      path: `/accountNumber/1`,
+    })
+  }
+
+
+
   // 对响应错误做点什么
   return Promise.reject(error);
 });
@@ -129,15 +142,12 @@ export async function requestApi(data: DataInfo) {
 
   // 获取请求参数
   let insideConfig = reasonMethod(data)
-
-  console.log(insideConfig);
   
 
   // 取到token 放在网络请求里面
   try {
 
     let res = await instance.request(insideConfig);
-    console.log(res);
     
     Toast.clear();
     // if (isIntfData(res)) {

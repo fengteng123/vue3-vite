@@ -14,7 +14,7 @@
           {{shoppingInfo.name}}
         </div>
         <div class="money">
-          {{shoppingInfo.price}} 元
+          {{shoppingInfo.price?shoppingInfo.price/100:''}} 元
         </div>
       </div>
 

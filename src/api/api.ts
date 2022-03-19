@@ -124,7 +124,7 @@ export const selectCart = (question:any) => {
 export const delectCart = (question:any) => {
   return requestApi({
     url: `cart`,
-    method: 'delete',
+    method: 'post',
     UrlCode:UrlCode.NO_ISLOG,
     data: question,
   });
@@ -139,5 +139,28 @@ export const order  = (question:any) => {
     method: 'post',
     UrlCode:UrlCode.NO_ISLOG,
     data: question,
+  });
+}
+
+/**
+ * 支付
+ */
+export const pay  = (question:any) => {
+  return requestApi({
+    url: `pay`,
+    method: 'post',
+    UrlCode:UrlCode.NO_ISLOG,
+    data: question,
+  });
+}
+/**
+ * 查询订单
+ */
+export const orderAll  = (question:any) => {
+  return requestApi({
+    url: `order/all`,
+    method: 'get',
+    UrlCode:UrlCode.NO_ISLOG,
+    params: question,
   });
 }
