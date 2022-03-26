@@ -32,6 +32,7 @@ class Request {
   baseURL: string;
   timeout: number;
   contentType: string;
+
   constructor(config: InitializeConfig) {
     // 默认配置参数
     let defaultConfig: any = {
@@ -40,6 +41,7 @@ class Request {
       contentType: "application/x-www-form-urlencoded",
     };
 
+    // requet文件有传入使用传入配置 没有 传入使用默认配置
     if (Object.prototype.toString.call(config) == "[object Object]") {
       for (let key in defaultConfig) {
         let configKey = config[key as keyof typeof config]
@@ -59,6 +61,7 @@ class Request {
   interceptors = (instance: AxiosInstance) => {
 
 
+    // 请求拦截
     instance.interceptors.request.use((config: AxiosRequestConfig<any>) => {
 
       let token = localStorage.getItem('token') || '';
@@ -77,7 +80,7 @@ class Request {
       throw Promise.reject(error);
     })
 
-
+    // 响应拦截
     instance.interceptors.response.use((response) => {
       alert('响应拦截')
       return response
@@ -97,6 +100,9 @@ class Request {
     })
   }
 
+  /**
+   * 根据具体api文件设置请求
+   */
   getInsideConfig = (insideConfig: insideConfigInfo = {}) => {
     //  默认参数配置
     const config = {
@@ -124,14 +130,14 @@ class Request {
       if (isIntfData(res)) {
         return res.data
       }
-      
+
       // 请求成功 但 不符合前台格式规定 抛出错误
       throw createError('', `${res.data.meg}(返回数据格式有误)`, res.data);
     } catch (error) {
       Toast.clear();
       console.dir(error);
       throw createError(error.response.data.code, error.response.data.msg,)
-      
+
     }
   }
 
